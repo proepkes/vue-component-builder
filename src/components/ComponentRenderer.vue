@@ -28,31 +28,32 @@
   </component>
 </template>
 <script>
-import Draggable from "vuedraggable";
+import Draggable from 'vuedraggable';
+
 export default {
-  name: "component-renderer",
+  name: 'component-renderer',
   components: {
-    Draggable
+    Draggable,
   },
   props: {
     componentData: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     dragOptions: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     index: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   methods: {
     componentClick(component, index) {
-      this.$emit("component-click", component, index);
-    }
-  }
+      this.$emit('component-click', component, index);
+    },
+  },
 };
 </script>
 <style>

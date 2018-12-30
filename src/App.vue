@@ -56,153 +56,154 @@
 </template>
 
 <script>
-import Vue from "vue";
-import Draggable from "vuedraggable";
-import { extractProps, extractSlots } from "../componentUtils";
-import camelCase from "lodash/camelCase";
-import deepClone from "lodash/cloneDeep";
-import ComponentEditor from "./components/ComponentEditor";
-import ComponentRenderer from "./components/ComponentRenderer";
+import Draggable from 'vuedraggable';
+import camelCase from 'lodash/camelCase';
+import deepClone from 'lodash/cloneDeep';
+import { extractProps, extractSlots } from '../componentUtils';
+import ComponentEditor from './components/ComponentEditor';
+import ComponentRenderer from './components/ComponentRenderer';
+
 export default {
-  name: "App",
+  name: 'App',
   components: {
     Draggable,
     ComponentEditor,
-    ComponentRenderer
+    ComponentRenderer,
   },
   data() {
     return {
       selectedComponentIndex: 0,
       selectedComponent: {
         props: {},
-        slots: []
+        slots: [],
       },
       componentTree: [],
       allComponents: [
         {
-          component: "el-button",
+          component: 'el-button',
           props: {
-            type: "primary"
+            type: 'primary',
           },
-          content: "Button",
-          children: []
+          content: 'Button',
+          children: [],
         },
         {
-          component: "el-switch",
-          children: []
+          component: 'el-switch',
+          children: [],
         },
         {
-          component: "el-card",
-          content: "card",
-          children: []
+          component: 'el-card',
+          content: 'card',
+          children: [],
         },
         {
-          component: "el-input",
+          component: 'el-input',
           props: {
-            value: "Input Value"
+            value: 'Input Value',
           },
-          children: []
+          children: [],
         },
         {
-          component: "el-row",
+          component: 'el-row',
           props: {
-            class: "row"
+            class: 'row',
           },
-          content: "row",
-          children: []
+          content: 'row',
+          children: [],
         },
         {
-          component: "el-col",
+          component: 'el-col',
           props: {
-            class: "col"
+            class: 'col',
           },
-          content: "col",
-          children: []
+          content: 'col',
+          children: [],
         },
         {
-          component: "el-form",
+          component: 'el-form',
           props: {
-            class: "demo-form"
+            class: 'demo-form',
           },
           children: [
             {
-              component: "el-form-item",
+              component: 'el-form-item',
               props: {
-                label: "Input label"
+                label: 'Input label',
               },
               children: [
                 {
-                  component: "el-input",
+                  component: 'el-input',
                   props: {
-                    value: "Test"
+                    value: 'Test',
                   },
-                  children: []
-                }
-              ]
-            }
-          ]
-        }
+                  children: [],
+                },
+              ],
+            },
+          ],
+        },
       ],
-      componentsToRender: []
+      componentsToRender: [],
     };
   },
   computed: {
     dragOptionsInitial() {
       return {
-        draggable: ".draggable-component",
-        group: { name: "components", pull: "clone", put: false },
-        ghostClass: "draggable-component--ghost",
-        chosenClass: "draggable-component--chosen"
+        draggable: '.draggable-component',
+        group: { name: 'components', pull: 'clone', put: false },
+        ghostClass: 'draggable-component--ghost',
+        chosenClass: 'draggable-component--chosen',
       };
     },
     dragOptions() {
       return {
-        draggable: ".draggable-component",
-        group: "components",
-        ghostClass: "draggable-component--ghost",
-        chosenClass: "draggable-component--chosen"
+        draggable: '.draggable-component',
+        group: 'components',
+        ghostClass: 'draggable-component--ghost',
+        chosenClass: 'draggable-component--chosen',
       };
-    }
+    },
   },
   watch: {
     componentsToRender: {
       deep: true,
       handler(newValue) {
         this.setComponentData(newValue);
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.allComponents = this.allComponents.map(this.parseComponent);
   },
   methods: {
     setComponentData(value) {
-      let tree = deepClone(value);
+      const tree = deepClone(value);
       this.componentTree = tree;
     },
     parseComponent(component) {
-      let children = component.children.map(this.parseComponent);
+      const children = component.children.map(this.parseComponent);
       return {
         component: component.component,
         props: component.props,
         content: component.content,
         children,
-        slots: this.getComponentSlots(component.component)
+        slots: this.getComponentSlots(component.component),
       };
     },
     syncProps(newValue) {
       this.componentTree[this.selectedComponentIndex].props = newValue;
     },
-    updateContent(value, component) {
-      console.log("Update", value);
+    updateContent(value) {
+      // eslint-disable-next-line no-console
+      console.log('Update', value);
     },
     getComponentSlots(compName) {
-      let component = this.getComponent(compName);
+      const component = this.getComponent(compName);
       return extractSlots(component);
     },
     componentClick(compName, index) {
-      let component = this.getComponent(compName);
-      let props = extractProps(component);
+      const component = this.getComponent(compName);
+      const props = extractProps(component);
       this.selectedComponent.props = props;
       this.selectedComponentIndex = index;
     },
@@ -211,10 +212,10 @@ export default {
       camelCaseComponentName =
         camelCaseComponentName.charAt(0).toUpperCase() +
         camelCaseComponentName.slice(1);
-      let component = this.$root.$options.components[camelCaseComponentName];
+      const component = this.$root.$options.components[camelCaseComponentName];
       return component;
-    }
-  }
+    },
+  },
 };
 </script>
 

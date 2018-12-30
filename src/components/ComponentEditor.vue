@@ -14,31 +14,31 @@
 </template>
 <script>
 export default {
-  name: "component-editor",
+  name: 'component-editor',
   props: {
     componentProps: {
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
   data() {
     return {
       mappings: {
-        String: "el-input",
-        Boolean: "el-switch",
-        default: "el-input"
+        String: 'el-input',
+        Boolean: 'el-switch',
+        default: 'el-input',
       },
-      config: {}
+      config: {},
     };
   },
   watch: {
     config: {
       deep: true,
       handler(newValue) {
-        this.$emit("change", newValue);
-      }
-    }
-  }
+        this.$emit('change', newValue);
+      },
+    },
+  },
 };
 </script>
 <style lang="scss">
